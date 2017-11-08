@@ -4,31 +4,35 @@
 using namespace std;
 
 int main()
-{ int tab[50];
+{ int tab[8]={3,2,5,7,6,1,4,8};
 	
-	srand(time(NULL));
-	for(int i=0;i<50;i++)
-	{ tab[i]=rand()%50;
-		
+	
+	for(int i=0;i<8;i++)
+	{ 
+		cout << tab[i]<<"  " ;
 	}
+	cout << endl; 
 	
+	bool isSorted;
 	
-	int temp;
-	for ( int i=0 ;i<50; i++)
-	  { 
-		  for(int j=0; j<49; j++)
-		    { 
-				if(tab[j]>tab[j+1])
-				{ 
-					temp=tab[j];
-					tab[j]=tab[j+1];
-					tab[j+1]=temp;
-	             }
-	         }
-	   }
+	for( int i=0;i<8;i++)
+	{ 
+	isSorted=true;
+	for(int j=0;j<7;j++)
+	{
+		if(tab[j]>tab[j+1])
+		{ 
+			swap(tab[j],tab[j+1]);
+		}
+		isSorted=false;
+	}
+	if(true==isSorted)
+	{
+		break;
+	}	
 	
-	
-	for ( int i=0; i<50 ; i++)
+}
+	for ( int i=0; i<8 ; i++)
 	 cout << tab[i] << "  " ;
 	
 	

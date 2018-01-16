@@ -1,6 +1,9 @@
 Rozpakuj katalog archiwum.tar.gz
+tar -xvvzf archiwum.tar.gz
 
 Sprawdź sumę kontrolną pliku genom.txt
+
+md5sum -c suma.md5
 
 =======================================
 Zadanie 1
@@ -14,20 +17,21 @@ chrom	strand	txStart	txEnd	cdsStart	cdsEnd	exonCount	exonStarts	exonEnds	protein
 
 	
 5 - W jaki sposób są rozdzielone pola? 
-
+białymi znakami 
 
 6 - Ile transkryptów (NM_ *) jest reprezentowanych w pliku? 
 36090  komenda : grep -c 'NM_*' genom.txt
  
 
 7 -Ile genów jest reprezentowanych w pliku? 
-36090
+36090 komenda: wc -l
 
 8 - Czy jakiekolwiek transkrypty są reprezentowane więcej niż jeden raz?   
     Jeśli tak, które [Umieść listę w pliku "mult_transcripts.txt"]?
 
 
 9  -Ile chromosomów jest reprezentowanych? 
+cat genom.txt | cut -f3 | uniq | wc -l
 
 10 - Jakie geny znajdują się na chromosomie Y? Umieść je w pliku "chrY_genes.txt"
 	grep -b "chrY" genom.txt >>chrY_genes.txt
@@ -39,17 +43,21 @@ grep -b "-" genom.txt >>chrY_neg.txt
 
 12- Posortuj wszystkie dane w genom_plus.txt, najpierw przez chromosom (rosnąco), a następnie przez pierwszą współrzędną (malejąco).
 
+cat genom_plus.txt
+sort -k3 --version-sort
+
 
 13- Podziel równomiernie wszystkie dane na 4 pliki o nazwach "Part_1.txt", "Part_2.txt" itd. Użyj komendy split.
-
+split -n4 -a1 --numeric-suffixes=1 genom.txt Part_
 14- Jakie 5 genów pojawia się na "prawym końcu" (np. Mają najwyższe współrzędne) chr 19?
 
 
 15- W oparciu o pole z genami, jaki jest najdłuższy chromosom? Jaka jest jego długość?
 
+awk 'BEGIN{m=-1} {if ($6-$5) > m) m=$6-$5}END{print m}' genom.txt
 
 16- Jakie geny zawierają litery "BMP"? Umieść je w pliku "BMPs_etc.txt"
-	 grep -c 'BMP' genom.txt
+awk '{if ($13 ~ "BMP") print}' genom.txt > BMPs_etc.txt
 
 
 17- Które z tych "genów BMP" mają więcej niż jeden transkrypt?

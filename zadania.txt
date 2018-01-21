@@ -55,6 +55,7 @@ split -n4 -a1 --numeric-suffixes=1 genom.txt Part_
 
 
 14- Jakie 5 genów pojawia się na "prawym końcu" (np. Mają najwyższe współrzędne) chr 19?
+cat genom.txt | grep "\schr19\" | cut -f2 | sort -k5 | tail -5 
 
 
 15- W oparciu o pole z genami, jaki jest najdłuższy chromosom? Jaka jest jego długość?
@@ -63,14 +64,16 @@ awk 'BEGIN{m=-1} {if ($6-$5) > m) m=$6-$5}END{print m}' genom.txt
 
 16- Jakie geny zawierają litery "BMP"? Umieść je w pliku "BMPs_etc.txt"
 
-awk '{if ($13 ~ "BMP") print}' genom.txt >> BMPs_etc.txt	
+awk '{if ($13 ~ "BMP") print $2}' genom.txt >> BMPs_etc.txt	
 
 
 17- Które z tych "genów BMP" mają więcej niż jeden transkrypt?
 
+cat BMPs_etc.txt | wc --lines  (23)
 
 18- Jaki gen ma najdłuższą długość genomu (odległość między początkiem i końcem transkrypcji)? Najkrótszy?
-	
+	awk 'BEGIN {start=-1} {if ($6- $5 > start) start=$6-$5}END{print "MAX = " start}' genom.txt ( najdłuższy )
+	awk 'BEGIN {end=999999999999} {if ($6- $5 < end) end=$6-$5}END{print "MIN = " end}' genom.txt ( najkrótszy )
 
 
 19- Zmień format pliku, tak aby zawierał dwa pola:  RefSeq<tab>chr:start-end
